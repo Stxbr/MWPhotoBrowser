@@ -28,7 +28,7 @@
     if ((self = [super initWithFrame:frame])) {
         
         // Grey background
-        self.backgroundColor = [UIColor colorWithWhite:0.12 alpha:1];
+        self.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1.0];//[UIColor colorWithWhite:0.12 alpha:1];
         
         // Image
         _imageView = [UIImageView new];
@@ -53,6 +53,9 @@
 		// Loading indicator
 		_loadingIndicator = [[DACircularProgressView alloc] initWithFrame:CGRectMake(0, 0, 40.0f, 40.0f)];
         _loadingIndicator.userInteractionEnabled = NO;
+        [_loadingIndicator setProgressTintColor:
+         [UIColor colorWithRed:26.0/255.0 green:147.0/255.0 blue:239.0/255.0 alpha:1.0]];
+        [_loadingIndicator setTrackTintColor:[UIColor lightGrayColor]];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7")) {
             _loadingIndicator.thicknessRatio = 0.1;
             _loadingIndicator.roundedCorners = NO;
@@ -174,7 +177,7 @@
 - (void)showImageFailure {
     if (!_loadingError) {
         _loadingError = [UIImageView new];
-        _loadingError.image = [UIImage imageNamed:@"MWPhotoBrowser.bundle/images/ImageError.png"];
+        _loadingError.image = [UIImage imageNamed:@"ImageErrorGray.png"];
         _loadingError.userInteractionEnabled = NO;
         [_loadingError sizeToFit];
         [self addSubview:_loadingError];
