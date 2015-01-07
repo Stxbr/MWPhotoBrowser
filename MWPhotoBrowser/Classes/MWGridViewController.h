@@ -15,5 +15,5 @@
 @property (nonatomic, assign) MWPhotoBrowser *browser;
 @property (nonatomic) BOOL selectionMode;
 @property (nonatomic) CGPoint initialContentOffset;
-
+@property (assign) CGRect navBarFrame;
 @end

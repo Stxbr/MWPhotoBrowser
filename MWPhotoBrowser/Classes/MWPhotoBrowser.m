@@ -1163,6 +1163,7 @@
     _gridController.initialContentOffset = _currentGridContentOffset;
     _gridController.browser = self;
     _gridController.selectionMode = _displaySelectionButtons;
+    _gridController.navBarFrame = self.navBarFrame;
     _gridController.view.frame = self.view.bounds;
     _gridController.view.frame = CGRectOffset(_gridController.view.frame, 0, self.view.bounds.size.height);
 
