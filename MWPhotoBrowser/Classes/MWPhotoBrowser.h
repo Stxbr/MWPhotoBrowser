@@ -70,4 +70,6 @@
 - (void)showNextPhotoAnimated:(BOOL)animated;
 - (void)showPreviousPhotoAnimated:(BOOL)animated;
 
+- (void) setBackgroundColorToMatchStatusBarHidden:(BOOL) hidden;
+
 @end

@@ -22,7 +22,6 @@
 	NSArray *_depreciatedPhotoData; // Depreciated
 	
 	// Views
-	UIScrollView *_pagingScrollView;
 	
 	// Paging & layout
 	NSMutableSet *_visiblePages, *_recycledPages;
@@ -70,6 +69,9 @@
     CGPoint _currentGridContentOffset;
     
 }
+
+
+@property (nonatomic) UIScrollView *pagingScrollView;
 
 // Properties
 @property (nonatomic) UIActivityViewController *activityViewController;
