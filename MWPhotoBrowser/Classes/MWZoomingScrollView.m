@@ -338,6 +338,7 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
 	[_photoBrowser cancelControlHiding];
+    [_photoBrowser allowScrolling:NO];
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
@@ -352,6 +353,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
 	[_photoBrowser hideControlsAfterDelay];
+    [_photoBrowser allowScrolling:YES];
 }
 
 #pragma mark - Tap Detection

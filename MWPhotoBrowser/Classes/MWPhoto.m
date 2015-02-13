@@ -166,7 +166,7 @@
                                                              [[NSNotificationCenter defaultCenter] postNotificationName:MWPHOTO_PROGRESS_NOTIFICATION object:dict];
                                                          }
                                                      }
-                                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL* imageUrl) {
+                                                    completed:^(UIImage *image, NSData *imageData, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL* imageUrl) {
                                                         if (error) {
                                                             MWLog(@"SDWebImage failed to download image: %@", error);
                                                         }

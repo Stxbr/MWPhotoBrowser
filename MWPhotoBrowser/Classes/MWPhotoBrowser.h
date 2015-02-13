@@ -71,6 +71,7 @@
 - (void)showNextPhotoAnimated:(BOOL)animated;
 - (void)showPreviousPhotoAnimated:(BOOL)animated;
 
+- (void) allowScrolling:(BOOL) enabled;
 - (void) setBackgroundColorToMatchStatusBarHidden:(BOOL) hidden;
 
 @end

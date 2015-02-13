@@ -1036,11 +1036,19 @@
 
 #pragma mark - UIScrollView Delegate
 
+- (void) allowScrolling:(BOOL) enabled
+{
+    self.pagingScrollView.scrollEnabled = enabled;
+}
+
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	
+    
     // Checks
 	if (!_viewIsActive || _performingLayout || _rotating) return;
 	
+
+    
 	// Tile pages
 	[self tilePages];
 	
