@@ -16,7 +16,10 @@
 #define ACTION_SHEET_OLD_ACTIONS 2000
 
 @implementation MWPhotoBrowser
-
+{
+    id<UIGestureRecognizerDelegate> oldSwipeDelegate;
+    UINavigationController *cachedNavigationController;
+}
 #pragma mark - Init
 
 - (id)init {
@@ -203,7 +206,6 @@
     
 	// Super
     [super viewDidLoad];
-	
 }
 
 - (void)performLayout {
@@ -400,10 +402,33 @@
         }
         _viewHasAppearedInitially = YES;
     }
+    
+}
 
+
+- (void) captureSwipeGesture
+{
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+- (void) resetSwipeGesture
+{
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [self resetSwipeGesture];
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    NSLog(@"viewWillDisappear");
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    
+    // Controls
+    [self.navigationController.navigationBar.layer removeAllAnimations]; // Stop all animations on nav bar
+    [NSObject cancelPreviousPerformRequestsWithTarget:self]; // Cancel any pending toggles from taps
+    [self setControlsHidden:NO animated:NO permanent:YES];
     
     // Check that we're being popped for good
     if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
@@ -436,7 +461,6 @@
     
 	// Super
 	[super viewWillDisappear:animated];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -802,10 +826,10 @@
     if (iFirstIndex > [self numberOfPhotos] - 1) iFirstIndex = [self numberOfPhotos] - 1;
     if (iLastIndex < 0) iLastIndex = 0;
     if (iLastIndex > [self numberOfPhotos] - 1) iLastIndex = [self numberOfPhotos] - 1;
-	
+
 	// Recycle no longer needed pages
     NSInteger pageIndex;
-	for (MWZoomingScrollView *page in _visiblePages) {
+	for (MWZoomingScrollView *page in [_visiblePages copy]) {
         pageIndex = page.index;
 		if (pageIndex < (NSUInteger)iFirstIndex || pageIndex > (NSUInteger)iLastIndex) {
 			[_recycledPages addObject:page];
@@ -969,9 +993,12 @@
 #pragma mark - Frame Calculations
 
 - (CGRect)frameForPagingScrollView {
-    CGRect frame = self.view.bounds;// [[UIScreen mainScreen] bounds];
+    CGRect frame = self.view.bounds;	// [[UIScreen mainScreen] bounds];
     frame.origin.x -= PADDING;
-    frame.size.width += (2 * PADDING);
+    // This +1 is really important!  It fixes bad things that happen
+    // on iPhone 6s for the middle page, something about dividing boundaries
+    // poorly
+    frame.size.width += (2 * PADDING) + 1;
     return CGRectIntegral(frame);
 }
 
@@ -1248,7 +1275,13 @@
 
 // If permanent then we don't set timers to hide again
 // Fades all controls on iOS 5 & 6, and iOS 7 controls slide and fade
-- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent {
+- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent
+{
+    if (hidden) {
+        [self captureSwipeGesture];
+    } else {
+        [self resetSwipeGesture];
+    }
     
     // Force visible
     if (![self numberOfPhotos] || _gridController || _alwaysShowControls)

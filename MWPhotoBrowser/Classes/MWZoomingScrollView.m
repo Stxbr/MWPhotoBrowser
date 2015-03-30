@@ -154,6 +154,7 @@
 			
 		}
 		[self setNeedsLayout];
+        [self layoutIfNeeded];
 	}
 }
 
@@ -281,13 +282,12 @@
     
     // Layout
 	[self setNeedsLayout];
-
+    [self layoutIfNeeded];
 }
 
 #pragma mark - Layout
 
 - (void)layoutSubviews {
-	
 	// Update tap view frame
 	_tapView.frame = self.bounds;
 	
@@ -338,7 +338,9 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
 	[_photoBrowser cancelControlHiding];
-    [_photoBrowser allowScrolling:NO];
+    if (self.zoomScale != self.minimumZoomScale) {
+        [_photoBrowser allowScrolling:NO];
+    }
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {

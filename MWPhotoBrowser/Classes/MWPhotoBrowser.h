@@ -40,7 +40,7 @@
 
 @end
 
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
+@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (assign) CGRect navBarFrame;
 @property (nonatomic, weak) IBOutlet id<MWPhotoBrowserDelegate> delegate;
